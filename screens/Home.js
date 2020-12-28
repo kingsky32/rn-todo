@@ -21,7 +21,7 @@ const Title = styled.Text`
   color: ${theme.blackColor};
 `;
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <View>
       <SearchBar />

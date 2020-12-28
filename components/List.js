@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 import IconComponent from './IconComponent';
+import {withNavigation} from 'react-navigation';
 
 const View = styled.View`
   ${theme.boxStyle};
@@ -34,9 +35,9 @@ const NextIcon = styled(Icon)`
   margin-right: 8px;
 `;
 
-const List = ({title, count}) => {
+const List = ({title, count, navigation}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.navigate('ListDetail')}>
       <View>
         <IconComponent
           icon={<Icon name="list-ul" size={14} color={theme.whiteColor} />}
@@ -55,4 +56,4 @@ List.propTypes = {
   count: PropTypes.number.isRequired,
 };
 
-export default List;
+export default withNavigation(List);

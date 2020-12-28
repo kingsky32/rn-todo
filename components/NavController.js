@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import MainNavigation from './MainNavigation';
+import MainNavigation from '../navigation/MainNavigation';
 
 const View = styled.View`
   flex: 1;
