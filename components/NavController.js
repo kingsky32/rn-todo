@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MainNavigation from './MainNavigation';
 
-const View = styled.SafeAreaView`
+const View = styled.View`
   flex: 1;
 `;
 

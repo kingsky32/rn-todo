@@ -1,16 +1,16 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import Home from '../screens/Home';
-import {stackStyles} from './config';
+import {stackStyle} from './config';
 
 const MainNavigation = createStackNavigator(
   {
-    Home: Home,
+    Home,
   },
   {
     defaultNavigationOptions: {
       cardStyle: {
-        ...stackStyles,
+        ...stackStyle,
       },
     },
   },
