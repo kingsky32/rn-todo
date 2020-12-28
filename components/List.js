@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components';
 import theme from '../styles/theme';
@@ -18,16 +20,39 @@ const Title = styled.Text`
   flex: 1;
 `;
 
-const List = () => {
+const Count = styled.Text`
+  font-size: 17px;
+  color: ${theme.darkGreyColor};
+  font-weight: 600;
+  margin-right: 12px;
+  opacity: 0.75;
+`;
+
+const NextIcon = styled(Icon)`
+  color: ${theme.darkGreyColor};
+  opacity: 0.5;
+  margin-right: 8px;
+`;
+
+const List = ({title, count}) => {
   return (
-    <View>
-      <IconComponent
-        icon={<Icon name="list-ul" size={14} color={theme.whiteColor} />}
-        color={theme.blueColor}
-      />
-      <Title>Reminders</Title>
-    </View>
+    <TouchableOpacity>
+      <View>
+        <IconComponent
+          icon={<Icon name="list-ul" size={14} color={theme.whiteColor} />}
+          color={theme.blueColor}
+        />
+        <Title>{title}</Title>
+        <Count>{count}</Count>
+        <NextIcon name="angle-right" size={21} />
+      </View>
+    </TouchableOpacity>
   );
+};
+
+List.propTypes = {
+  title: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default List;

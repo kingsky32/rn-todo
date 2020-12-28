@@ -1,12 +1,11 @@
 import React from 'react';
 import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import styled from 'styled-components';
 import {cardStyle} from '../components/config';
 import List from '../components/List';
 import SearchBar from '../components/SearchBar';
 import theme from '../styles/theme';
-
-const Touchable = styled.TouchableOpacity``;
 
 const Edit = styled.Text`
   color: ${theme.blueColor};
@@ -27,7 +26,7 @@ const Home = () => {
     <View>
       <SearchBar />
       <Title>My Lists</Title>
-      <List />
+      <List title="Reminders" count={0} />
     </View>
   );
 };
@@ -48,11 +47,11 @@ export default {
     },
     headerTitle: '',
     headerRight: () => (
-      <Touchable>
+      <TouchableOpacity>
         <View>
           <Edit>Edit</Edit>
         </View>
-      </Touchable>
+      </TouchableOpacity>
     ),
   },
 };
