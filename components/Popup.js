@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import theme from '../styles/theme';
+import constants from '../constants';
 
 const View = styled.View`
   position: absolute;
   background-color: ${theme.whiteColor};
   top: 45px;
   width: 235px;
-  left: -210px;
+  right: ${theme.paddingHorizontal};
   border-radius: ${theme.borderRadius}px;
   box-shadow: 0 0 250px #00000095;
 `;
@@ -30,21 +34,29 @@ const ListText = styled.Text`
   font-weight: 400;
 `;
 
-const Popup = ({list}) => {
+const Popup = ({list, onHide}) => {
   return (
-    <View>
-      {list &&
-        list.map((e, idx) => (
-          <TouchableOpacity key={idx} onPress={e.onPress}>
-            <List style={idx !== list.length - 1 && {borderBottomWidth: 1}}>
-              <ListText style={e.delete && {color: theme.redColor}}>
-                {e.text}
-              </ListText>
-              {e.icon}
-            </List>
-          </TouchableOpacity>
-        ))}
-    </View>
+    <TouchableWithoutFeedback
+      style={{
+        top: '50%',
+        width: constants.width,
+        height: constants.height,
+      }}
+      onPress={onHide}>
+      <View>
+        {list &&
+          list.map((e, idx) => (
+            <TouchableOpacity key={idx} onPress={e.onPress}>
+              <List style={idx !== list.length - 1 && {borderBottomWidth: 1}}>
+                <ListText style={e.delete && {color: theme.redColor}}>
+                  {e.text}
+                </ListText>
+                {e.icon}
+              </List>
+            </TouchableOpacity>
+          ))}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import styled from 'styled-components';
 import {cardStyle} from '../components/config';
 import List from '../components/List';
@@ -23,11 +23,13 @@ const Title = styled.Text`
 
 const Home = ({navigation}) => {
   return (
-    <View>
-      <SearchBar />
-      <Title>My Lists</Title>
-      <List title="Reminders" count={0} />
-    </View>
+    <ScrollView>
+      <View>
+        <SearchBar />
+        <Title>My Lists</Title>
+        <List title="Reminders" count={0} />
+      </View>
+    </ScrollView>
   );
 };
 

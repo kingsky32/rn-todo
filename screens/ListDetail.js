@@ -2,24 +2,33 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import theme from '../styles/theme';
 import {cardStyle} from '../components/config';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components';
 import Popup from '../components/Popup';
+import NoReminders from '../components/NoReminders';
+import ListBottom from '../components/ListBottom';
+import NewReminder from '../components/NewReminder';
 
-const HeaderMore = styled(Icon)`
-  margin-right: 15px;
+const SafeAreaView = styled.SafeAreaView`
+  flex: 1;
 `;
 
-const View = styled.View``;
+const ScrollView = styled.ScrollView`
+  flex: 1;
+`;
 
 const Title = styled.Text`
   font-size: 32px;
   color: ${theme.blueColor};
   font-weight: 700;
+  margin-bottom: 15px;
 `;
 
-const list = [
+const popupList = [
   {
     text: 'Name & Appearance',
     onPress: () => null,
@@ -43,15 +52,34 @@ const list = [
   },
 ];
 
-const ListDetail = ({}) => {
+const ListDetail = ({list = []}) => {
+  const [isNewReminder, setIsNewReminder] = useState(false);
+
+  const onNewReminder = () => {
+    setIsNewReminder(!isNewReminder);
+  };
+
   return (
-    <View>
-      <Title>Reminders</Title>
-    </View>
+    <SafeAreaView>
+      <ScrollView contentContainerStyle={{flex: 1}}>
+        <TouchableWithoutFeedback
+          containerStyle={{flex: 1}}
+          onPress={onNewReminder}>
+          <Title>Reminders</Title>
+          {isNewReminder && <NewReminder />}
+          {list.length !== 0
+            ? null
+            : !isNewReminder && <NoReminders title={'Reminders'} />}
+        </TouchableWithoutFeedback>
+      </ScrollView>
+      {!isNewReminder && <ListBottom onNewReminder={onNewReminder} />}
+    </SafeAreaView>
   );
 };
 
-ListDetail.propTypes = {};
+ListDetail.propTypes = {
+  list: PropTypes.array,
+};
 
 export default {
   screen: ListDetail,
@@ -73,16 +101,16 @@ export default {
       const [isPopup, setIsPopup] = useState(false);
       return (
         <>
-          {isPopup && <Popup onHide={() => setIsPopup(!isPopup)} list={list} />}
+          {isPopup && (
+            <Popup onHide={() => setIsPopup(!isPopup)} list={popupList} />
+          )}
           <TouchableOpacity onPress={() => setIsPopup(!isPopup)}>
-            <View>
-              <HeaderMore
-                name="ellipsis-horizontal-circle-outline"
-                size={28}
-                style={isPopup && {opacity: 0.15}}
-                color={theme.blueColor}
-              />
-            </View>
+            <Icon
+              name="ellipsis-horizontal-circle-outline"
+              size={28}
+              style={isPopup && {opacity: 0.15}}
+              color={theme.blueColor}
+            />
           </TouchableOpacity>
         </>
       );
