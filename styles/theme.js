@@ -8,6 +8,8 @@ const darkGreyColor = '#999999';
 
 const lightGreyColor = '#F2F2F2';
 
+const redColor = '#f90000';
+
 const blueColor = '#007aff';
 
 const paddingHorizontal = 16;
@@ -20,6 +22,7 @@ export default {
   greyColor,
   darkGreyColor,
   lightGreyColor,
+  redColor,
   blueColor,
   paddingHorizontal,
   borderRadius,
