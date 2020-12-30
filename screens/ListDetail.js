@@ -69,7 +69,9 @@ const ListDetail = ({reminders}) => {
         enabled
         keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <TouchableWithoutFeedback onPress={onNewReminder}>
+          <TouchableWithoutFeedback
+            style={{height: '100%'}}
+            onPress={onNewReminder}>
             <Title>Reminders</Title>
             {reminders.reminders.length !== 0
               ? reminders.reminders.map((e, idx) => (
