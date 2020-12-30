@@ -7,15 +7,14 @@ import {
 } from 'react-native-gesture-handler';
 import theme from '../styles/theme';
 import constants from '../constants';
+import {Modal} from 'react-native';
 
-const View = styled.View`
+const ModalContainer = styled.View`
   position: absolute;
   background-color: ${theme.whiteColor};
-  top: 45px;
   width: 235px;
-  right: ${theme.paddingHorizontal};
   border-radius: ${theme.borderRadius}px;
-  box-shadow: 0 0 250px #00000095;
+  box-shadow: 0 0 200px #00000095;
 `;
 
 const List = styled.View`
@@ -34,29 +33,34 @@ const ListText = styled.Text`
   font-weight: 400;
 `;
 
-const Popup = ({list, onHide}) => {
+const Popup = ({isPopup, list, onHide, top, right}) => {
   return (
-    <TouchableWithoutFeedback
-      style={{
-        top: '50%',
-        width: constants.width,
-        height: constants.height,
-      }}
-      onPress={onHide}>
-      <View>
-        {list &&
-          list.map((e, idx) => (
-            <TouchableOpacity key={idx} onPress={e.onPress}>
-              <List style={idx !== list.length - 1 && {borderBottomWidth: 1}}>
-                <ListText style={e.delete && {color: theme.redColor}}>
-                  {e.text}
-                </ListText>
-                {e.icon}
-              </List>
-            </TouchableOpacity>
-          ))}
-      </View>
-    </TouchableWithoutFeedback>
+    <Modal
+      visible={isPopup}
+      useNativeDriver={true}
+      hideModalContentWhileAnimating={true}
+      transparent>
+      <TouchableWithoutFeedback
+        style={{
+          width: constants.width,
+          height: constants.height,
+        }}
+        onPress={onHide}>
+        <ModalContainer style={{top, right}}>
+          {list &&
+            list.map((e, idx) => (
+              <TouchableOpacity key={idx} onPress={e.onPress}>
+                <List style={idx !== list.length - 1 && {borderBottomWidth: 1}}>
+                  <ListText style={e.delete && {color: theme.redColor}}>
+                    {e.text}
+                  </ListText>
+                  {e.icon}
+                </List>
+              </TouchableOpacity>
+            ))}
+        </ModalContainer>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };
 

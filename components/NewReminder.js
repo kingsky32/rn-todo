@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -30,6 +30,13 @@ const TouchableOpacity = styled.TouchableOpacity`
 const InfoIcon = styled(Icon)``;
 
 const NewReminder = ({complate = false}) => {
+  const inputRef = useRef(null);
+  const onSubmitEditing = () => {
+    // TODO: Add, Edit List
+  };
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
   return (
     <View>
       <CheckIcon
@@ -37,7 +44,7 @@ const NewReminder = ({complate = false}) => {
         size={32}
         color={`${theme.blackColor}25`}
       />
-      <Input />
+      <Input ref={inputRef} onSubmitEditing={onSubmitEditing} />
       <TouchableOpacity>
         <InfoIcon
           name="information-circle-outline"

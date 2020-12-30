@@ -101,10 +101,16 @@ export default {
       const [isPopup, setIsPopup] = useState(false);
       return (
         <>
-          {isPopup && (
-            <Popup onHide={() => setIsPopup(!isPopup)} list={popupList} />
-          )}
-          <TouchableOpacity onPress={() => setIsPopup(!isPopup)}>
+          <Popup
+            isPopup={isPopup}
+            onHide={() => setIsPopup(!isPopup)}
+            list={popupList}
+            top={100}
+            right={theme.paddingHorizontal}
+          />
+          <TouchableOpacity
+            style={{marginRight: theme.paddingHorizontal}}
+            onPress={() => setIsPopup(!isPopup)}>
             <Icon
               name="ellipsis-horizontal-circle-outline"
               size={28}
