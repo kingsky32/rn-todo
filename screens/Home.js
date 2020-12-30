@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {cardStyle} from '../components/config';
 import List from '../components/List';
@@ -21,20 +22,24 @@ const Title = styled.Text`
   color: ${theme.blackColor};
 `;
 
-const Home = ({navigation}) => {
+const Home = ({reminders}) => {
   return (
     <ScrollView>
       <View>
         <SearchBar />
         <Title>My Lists</Title>
-        <List title="Reminders" count={0} />
+        <List title="Reminders" count={reminders.length} />
       </View>
     </ScrollView>
   );
 };
 
+const mapStateToProps = (state) => {
+  return {reminders: state};
+};
+
 export default {
-  screen: Home,
+  screen: connect(mapStateToProps)(Home),
   navigationOptions: {
     headerStyle: {
       backgroundColor: theme.lightGreyColor,

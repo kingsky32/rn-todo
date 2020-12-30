@@ -6,8 +6,8 @@ import {stackStyle} from '../components/config';
 
 const MainNavigation = createStackNavigator(
   {
-    ListDetail,
     Home,
+    ListDetail,
   },
   {
     defaultNavigationOptions: {

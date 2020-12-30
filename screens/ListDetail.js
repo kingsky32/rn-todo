@@ -11,7 +11,8 @@ import styled from 'styled-components';
 import Popup from '../components/Popup';
 import NoReminders from '../components/NoReminders';
 import ListBottom from '../components/ListBottom';
-import NewReminder from '../components/NewReminder';
+import Reminder from '../components/Reminder';
+import {connect} from 'react-redux';
 
 const SafeAreaView = styled.SafeAreaView`
   flex: 1;
@@ -52,7 +53,7 @@ const popupList = [
   },
 ];
 
-const ListDetail = ({list = []}) => {
+const ListDetail = ({reminders}) => {
   const [isNewReminder, setIsNewReminder] = useState(false);
 
   const onNewReminder = () => {
@@ -66,10 +67,14 @@ const ListDetail = ({list = []}) => {
           containerStyle={{flex: 1}}
           onPress={onNewReminder}>
           <Title>Reminders</Title>
-          {isNewReminder && <NewReminder />}
-          {list.length !== 0
-            ? null
+          {reminders.length !== 0
+            ? reminders.map((e, idx) => (
+                <Reminder key={idx} {...e} onNewReminder={onNewReminder} />
+              ))
             : !isNewReminder && <NoReminders title={'Reminders'} />}
+          {isNewReminder && (
+            <Reminder type="add" onNewReminder={onNewReminder} />
+          )}
         </TouchableWithoutFeedback>
       </ScrollView>
       {!isNewReminder && <ListBottom onNewReminder={onNewReminder} />}
@@ -77,12 +82,16 @@ const ListDetail = ({list = []}) => {
   );
 };
 
+const mapStateToProps = (state) => {
+  return {reminders: state};
+};
+
 ListDetail.propTypes = {
   list: PropTypes.array,
 };
 
 export default {
-  screen: ListDetail,
+  screen: connect(mapStateToProps)(ListDetail),
   navigationOptions: {
     headerStyle: {
       backgroundColor: theme.whiteColor,
