@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const View = styled.View`
   justify-content: center;
   align-items: center;
-  flex: 1 0 82%;
+  height: 90%;
 `;
 
 const NoRemindersText = styled.Text`

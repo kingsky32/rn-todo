@@ -6,6 +6,8 @@ import theme from '../styles/theme';
 import useInput from '../hooks/useInput';
 import {addToDo} from '../store';
 import {connect} from 'react-redux';
+import {useState} from 'react';
+import {TextInput} from 'react-native-gesture-handler';
 
 const View = styled.View`
   display: flex;
@@ -32,20 +34,28 @@ const TouchableOpacity = styled.TouchableOpacity`
 
 const InfoIcon = styled(Icon)``;
 
-const Reminder = ({complate = false, text, addToDo, type, onNewReminder}) => {
+const Reminder = ({complate = false, text, addToDo, onNewReminder}) => {
+  const [isFocus, setIsFocus] = useState(false);
   const inputRef = useRef(null);
   const input = useInput('');
   const onSubmitEditing = () => {
-    addToDo(input.value);
-    input.value = '';
+    if (input.value.length > 0) {
+      addToDo(input.value);
+      input.value = '';
+    }
     onNewReminder();
   };
   const onPressDetail = () => {
     // TODO: Add Detail card
   };
+
+  const onBlur = () => {
+    setIsFocus(false);
+    onNewReminder();
+  };
   useEffect(() => {
-    type && inputRef.current.focus();
-  }, [type]);
+    inputRef.current.focus();
+  }, []);
   return (
     <View>
       <CheckIcon
@@ -53,23 +63,29 @@ const Reminder = ({complate = false, text, addToDo, type, onNewReminder}) => {
         size={32}
         color={`${theme.blackColor}25`}
       />
-      {type === 'add' ? (
+      {!text ? (
         <Input
           ref={inputRef}
           value={input.value}
           onChangeText={input.onChange}
+          onFocus={() => setIsFocus(true)}
+          onBlur={onBlur}
           returnKeyType="done"
           onSubmitEditing={onSubmitEditing}
         />
-      ) : type === 'edit' ? null : (
+      ) : (
         <Input
           ref={inputRef}
           value={text}
           returnKeyType="done"
           onSubmitEditing={onSubmitEditing}
+          onFocus={() => setIsFocus(true)}
+          onBlur={onBlur}
+          autoFocus={false}
+          editable={false}
         />
       )}
-      {type && (
+      {isFocus && (
         <TouchableOpacity onPress={onPressDetail}>
           <InfoIcon
             name="information-circle-outline"

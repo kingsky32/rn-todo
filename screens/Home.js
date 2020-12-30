@@ -28,7 +28,7 @@ const Home = ({reminders}) => {
       <View>
         <SearchBar />
         <Title>My Lists</Title>
-        <List title="Reminders" count={reminders.length} />
+        <List title="Reminders" count={reminders.reminders.length} />
       </View>
     </ScrollView>
   );

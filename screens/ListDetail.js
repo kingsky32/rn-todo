@@ -13,6 +13,7 @@ import NoReminders from '../components/NoReminders';
 import ListBottom from '../components/ListBottom';
 import Reminder from '../components/Reminder';
 import {connect} from 'react-redux';
+import {KeyboardAvoidingView} from 'react-native';
 
 const SafeAreaView = styled.SafeAreaView`
   flex: 1;
@@ -62,22 +63,24 @@ const ListDetail = ({reminders}) => {
 
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={{flex: 1}}>
-        <TouchableWithoutFeedback
-          containerStyle={{flex: 1}}
-          onPress={onNewReminder}>
-          <Title>Reminders</Title>
-          {reminders.length !== 0
-            ? reminders.map((e, idx) => (
-                <Reminder key={idx} {...e} onNewReminder={onNewReminder} />
-              ))
-            : !isNewReminder && <NoReminders title={'Reminders'} />}
-          {isNewReminder && (
-            <Reminder type="add" onNewReminder={onNewReminder} />
-          )}
-        </TouchableWithoutFeedback>
-      </ScrollView>
-      {!isNewReminder && <ListBottom onNewReminder={onNewReminder} />}
+      <KeyboardAvoidingView
+        style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}
+        behavior="padding"
+        enabled
+        keyboardVerticalOffset={100}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <TouchableWithoutFeedback onPress={onNewReminder}>
+            <Title>Reminders</Title>
+            {reminders.reminders.length !== 0
+              ? reminders.reminders.map((e, idx) => (
+                  <Reminder key={idx} {...e} onNewReminder={onNewReminder} />
+                ))
+              : !isNewReminder && <NoReminders title={'Reminders'} />}
+            {isNewReminder && <Reminder onNewReminder={onNewReminder} />}
+          </TouchableWithoutFeedback>
+        </ScrollView>
+        {!isNewReminder && <ListBottom onNewReminder={onNewReminder} />}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

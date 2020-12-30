@@ -2,13 +2,13 @@ import {configureStore, createSlice} from '@reduxjs/toolkit';
 
 const reminders = createSlice({
   name: 'remindersReducer',
-  initialState: [],
+  initialState: {reminders: []},
   reducers: {
     addToDo: (state, action) => {
-      state.push({text: action.payload, id: Date.now()});
+      state.reminders.push({text: action.payload, id: Date.now()});
     },
     deleteToDo: (state, action) =>
-      state.filter((toDo) => toDo.id !== action.payload),
+      state.reminders.filter((toDo) => toDo.id !== action.payload),
   },
 });
 
