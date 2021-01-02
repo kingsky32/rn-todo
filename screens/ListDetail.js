@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import theme from '../styles/theme';
-import {cardStyle} from '../components/config';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -69,9 +68,7 @@ const ListDetail = ({reminders}) => {
         enabled
         keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <TouchableWithoutFeedback
-            style={{height: '100%'}}
-            onPress={onNewReminder}>
+          <TouchableWithoutFeedback style={{height: '100%'}}>
             <Title>Reminders</Title>
             {reminders.reminders.length !== 0
               ? reminders.reminders.map((e, idx) => (
@@ -106,7 +103,7 @@ export default {
       },
     },
     cardStyle: {
-      ...cardStyle,
+      paddingLeft: theme.paddingHorizontal,
       backgroundColor: theme.whiteColor,
     },
     headerTitle: '',

@@ -7,7 +7,7 @@ import useInput from '../hooks/useInput';
 import {addToDo} from '../store';
 import {connect} from 'react-redux';
 import {useState} from 'react';
-import {TextInput} from 'react-native-gesture-handler';
+import {RectButton, Swipeable} from 'react-native-gesture-handler';
 
 const View = styled.View`
   display: flex;
@@ -34,10 +34,52 @@ const TouchableOpacity = styled.TouchableOpacity`
 
 const InfoIcon = styled(Icon)``;
 
+const ActionText = styled.Text`
+  color: ${theme.whiteColor};
+  font-size: 15px;
+  font-weight: 500;
+`;
+
 const Reminder = ({complate = false, text, addToDo, onNewReminder}) => {
   const [isFocus, setIsFocus] = useState(false);
   const inputRef = useRef(null);
+  const swipeableRef = useRef(null);
   const input = useInput('');
+  const close = () => {
+    swipeableRef.current.close();
+  };
+  const renderRightActions = (progress) => {
+    const onDelete = () => {
+      close();
+    };
+    const onDetail = () => {
+      close();
+    };
+    return (
+      <>
+        <RectButton
+          onPress={onDelete}
+          style={{
+            backgroundColor: `${theme.redColor}98`,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 80,
+          }}>
+          <ActionText>Delete</ActionText>
+        </RectButton>
+        <RectButton
+          onPress={onDetail}
+          style={{
+            backgroundColor: `${theme.darkGreyColor}70`,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 80,
+          }}>
+          <ActionText>Details</ActionText>
+        </RectButton>
+      </>
+    );
+  };
   const onSubmitEditing = () => {
     if (input.value.length > 0) {
       addToDo(input.value);
@@ -54,47 +96,57 @@ const Reminder = ({complate = false, text, addToDo, onNewReminder}) => {
     onNewReminder();
   };
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current && inputRef.current.focus();
+    return () => {
+      inputRef.current && inputRef.current.blur();
+    };
   }, []);
   return (
-    <View>
-      <CheckIcon
-        name={complate ? 'radio-button-on-outline' : 'radio-button-off-outline'}
-        size={32}
-        color={`${theme.blackColor}25`}
-      />
-      {!text ? (
-        <Input
-          ref={inputRef}
-          value={input.value}
-          onChangeText={input.onChange}
-          onFocus={() => setIsFocus(true)}
-          onBlur={onBlur}
-          returnKeyType="done"
-          onSubmitEditing={onSubmitEditing}
+    <Swipeable
+      renderRightActions={renderRightActions}
+      friction={2}
+      rightThreshold={30}
+      overshootRight={false}
+      ref={swipeableRef}>
+      <View>
+        <CheckIcon
+          name={
+            complate ? 'radio-button-on-outline' : 'radio-button-off-outline'
+          }
+          size={32}
+          color={`${theme.blackColor}25`}
         />
-      ) : (
-        <Input
-          ref={inputRef}
-          value={text}
-          returnKeyType="done"
-          onSubmitEditing={onSubmitEditing}
-          onFocus={() => setIsFocus(true)}
-          onBlur={onBlur}
-          autoFocus={false}
-          editable={false}
-        />
-      )}
-      {isFocus && (
-        <TouchableOpacity onPress={onPressDetail}>
-          <InfoIcon
-            name="information-circle-outline"
-            size={26}
-            color={theme.blueColor}
+        {!text ? (
+          <Input
+            ref={inputRef}
+            value={input.value}
+            onChangeText={input.onChange}
+            onFocus={() => setIsFocus(true)}
+            onBlur={onBlur}
+            returnKeyType="done"
+            onSubmitEditing={onSubmitEditing}
           />
-        </TouchableOpacity>
-      )}
-    </View>
+        ) : (
+          <Input
+            value={text}
+            returnKeyType="done"
+            onSubmitEditing={onSubmitEditing}
+            onFocus={() => setIsFocus(true)}
+            onBlur={onBlur}
+            autoFocus={false}
+          />
+        )}
+        {isFocus && (
+          <TouchableOpacity onPress={onPressDetail}>
+            <InfoIcon
+              name="information-circle-outline"
+              size={26}
+              color={theme.blueColor}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    </Swipeable>
   );
 };
 
